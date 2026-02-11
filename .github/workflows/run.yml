@@ -1,0 +1,28 @@
+name: Get Race Results
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: 'シート名の日付 (例: 0210)'
+        required: true
+        default: '0210'
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+      - name: Run script
+        env:
+          GCP_JSON: ${{ secrets.GCP_JSON }}
+          TARGET_DATE: ${{ github.event.inputs.target_date }}
+        run: python main.py
