@@ -1,0 +1,4 @@
+playwright==1.41.0
+beautifulsoup4
+gspread
+google-auth
